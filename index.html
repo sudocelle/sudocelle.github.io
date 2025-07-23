@@ -1,18 +1,212 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sudocelle</title>
   <link rel="icon" href="img/celle.ico" type="image/x-icon">
-  <title>SudoCelle</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* Simple carousel styles */
+    .carousel {
+      max-width: 600px;
+      margin: 2rem auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(44, 62, 80, 0.08);
+      background: #fff;
+    }
+    .carousel-images {
+      display: flex;
+      transition: transform 0.5s ease;
+      width: 100%;
+    }
+    .carousel-images img {
+      width: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(44,62,80,0.7);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      z-index: 2;
+    }
+    .carousel-btn.left { left: 10px; }
+    .carousel-btn.right { right: 10px; }
+  </style>
 </head>
 <body>
-  <h1>This is the main page of Sudo Celle</h1>
-  <p>This is just a sample portfolio-like website. I am still trying to figure out github lol...:</p>
-  <ul>
-    <li><a href="https://github.com/sudocelle/project1">Project 1</a></li>
-    <li><a href="https://github.com/sudocelle/project2">Project 2</a></li>
 
-  <p>Anyway, I have not been doing website fr so long now.. </p>
-    
-  </ul>
+  <header>
+    <h1>Welcome to Sudocelle</h1>
+    <p>Rooted in power. Built with purpose.</p>
+    <button id="themeToggle" style="position:absolute; top:20px; right:30px; padding:0.5rem 1rem; border-radius:20px; border:none; background:#222; color:#fff; cursor:pointer; font-size:1rem; z-index:10;">
+      🌙 Dark Mode
+    </button>
+  </header>
+
+  <main>
+    <div class="carousel">
+      <button class="carousel-btn left" onclick="prevSlide()">&#8592;</button>
+      <div class="carousel-images" id="carouselImages">
+        <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=80" alt="Innovation Lab">
+        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80" alt="Tech Collaboration">
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80" alt="Creative Solutions">
+      </div>
+      <button class="carousel-btn right" onclick="nextSlide()">&#8594;</button>
+    </div>
+    <!-- Sudocelle Stats Bar Chart -->
+    <div class="chart-container" style="max-width:600px; margin:2rem auto; background:#fff; padding:2rem; border-radius:12px; box-shadow:0 2px 12px rgba(44,62,80,0.08);">
+      <h2 style="text-align:center;">Sudocelle Innovation Stats</h2>
+      <canvas id="myChart"></canvas>
+    </div>
+    <!-- Sudocelle Stats Line Chart -->
+    <div class="chart-container" style="max-width:600px; margin:2rem auto; background:#fff; padding:2rem; border-radius:12px; box-shadow:0 2px 12px rgba(44,62,80,0.08);">
+      <h2 style="text-align:center;">Sudocelle Growth Over Time</h2>
+      <canvas id="growthChart"></canvas>
+    </div>
+    <p>
+      Sudocelle is dedicated to driving innovation and empowering creators through technology. Explore our latest projects, open-source tools, and collaborative initiatives on our <a href="https://github.com/sudocelle" target="_blank">GitHub page</a>. Join us as we build solutions for tomorrow, today.
+    </p>
+  </main>
+
+  <footer>
+    <small>© 2025 Sudocelle</small>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Simple carousel functionality
+    const images = document.getElementById('carouselImages');
+    const totalSlides = images.children.length;
+    let currentSlide = 0;
+
+    function showSlide(index) {
+      if (index < 0) index = totalSlides - 1;
+      if (index >= totalSlides) index = 0;
+      images.style.transform = `translateX(-${index * 100}%)`;
+      currentSlide = index;
+    }
+
+    function prevSlide() {
+      showSlide(currentSlide - 1);
+    }
+
+    function nextSlide() {
+      showSlide(currentSlide + 1);
+    }
+
+    setInterval(() => nextSlide(), 5000);
+    showSlide(0);
+
+    // Sudocelle Stats Bar Chart Example
+    const ctx = document.getElementById('myChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Projects', 'Contributors', 'Stars', 'Forks', 'Releases', 'Issues'],
+        datasets: [{
+          label: 'Sudocelle Stats',
+          data: [8, 15, 120, 30, 5, 2], // Example stats, update with your real data if you want!
+          backgroundColor: [
+            'rgba(44, 62, 80, 0.7)',
+            'rgba(39, 174, 96, 0.7)',
+            'rgba(41, 128, 185, 0.7)',
+            'rgba(241, 196, 15, 0.7)',
+            'rgba(142, 68, 173, 0.7)',
+            'rgba(231, 76, 60, 0.7)'
+          ],
+          borderColor: [
+            'rgba(44, 62, 80, 1)',
+            'rgba(39, 174, 96, 1)',
+            'rgba(41, 128, 185, 1)',
+            'rgba(241, 196, 15, 1)',
+            'rgba(142, 68, 173, 1)',
+            'rgba(231, 76, 60, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Sudocelle Growth Line Chart Example
+    const growthCtx = document.getElementById('growthChart').getContext('2d');
+    new Chart(growthCtx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        datasets: [{
+          label: 'GitHub Stars',
+          data: [10, 25, 40, 60, 80, 120, 150],
+          fill: true,
+          borderColor: 'rgba(41, 128, 185, 1)',
+          backgroundColor: 'rgba(41, 128, 185, 0.2)',
+          tension: 0.3,
+          pointBackgroundColor: 'rgba(44, 62, 80, 1)',
+          pointBorderColor: '#fff',
+          pointRadius: 5
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Day/Night Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    let darkMode = false;
+    themeToggle.addEventListener('click', () => {
+      darkMode = !darkMode;
+      if (darkMode) {
+        document.body.style.background = '#222';
+        document.body.style.color = '#f9f9fb';
+        themeToggle.textContent = '☀️ Light Mode';
+        themeToggle.style.background = '#f9f9fb';
+        themeToggle.style.color = '#222';
+        document.querySelectorAll('main, .chart-container, .carousel').forEach(el => {
+          el.style.background = '#333';
+          el.style.color = '#f9f9fb';
+        });
+        document.querySelector('header').style.background = '#111';
+        document.querySelector('footer').style.background = '#222';
+        document.querySelector('footer').style.color = '#eee';
+      } else {
+        document.body.style.background = '#f9f9fb';
+        document.body.style.color = '#222';
+        themeToggle.textContent = '🌙 Dark Mode';
+        themeToggle.style.background = '#222';
+        themeToggle.style.color = '#fff';
+        document.querySelectorAll('main, .chart-container, .carousel').forEach(el => {
+          el.style.background = '#fff';
+          el.style.color = '#222';
+        });
+        document.querySelector('header').style.background = '#2d3e50';
+        document.querySelector('footer').style.background = '#eaeaea';
+        document.querySelector('footer').style.color = '#555';
+      }
+    });
+  </script>
 </body>
 </html>
