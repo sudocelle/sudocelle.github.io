@@ -7,7 +7,6 @@
   <link rel="icon" href="img/celle.ico" type="image/x-icon">
   <link rel="stylesheet" href="css/styles.css">
   <style>
-    /* Simple carousel styles */
     .carousel {
       max-width: 600px;
       margin: 2rem auto;
@@ -64,12 +63,10 @@
       </div>
       <button class="carousel-btn right" onclick="nextSlide()">&#8594;</button>
     </div>
-    <!-- Sudocelle Stats Bar Chart -->
     <div class="chart-container" style="max-width:600px; margin:2rem auto; background:#fff; padding:2rem; border-radius:12px; box-shadow:0 2px 12px rgba(44,62,80,0.08);">
       <h2 style="text-align:center;">Sudocelle Innovation Stats</h2>
       <canvas id="myChart"></canvas>
     </div>
-    <!-- Sudocelle Stats Line Chart -->
     <div class="chart-container" style="max-width:600px; margin:2rem auto; background:#fff; padding:2rem; border-radius:12px; box-shadow:0 2px 12px rgba(44,62,80,0.08);">
       <h2 style="text-align:center;">Sudocelle Growth Over Time</h2>
       <canvas id="growthChart"></canvas>
@@ -83,9 +80,29 @@
     <small>© 2025 Sudocelle</small>
   </footer>
 
+  <div id="game-container" style="max-width:400px; margin:2rem auto; background:#fff; padding:2rem; border-radius:12px; box-shadow:0 2px 12px rgba(44,62,80,0.08); text-align:center;">
+    <h2>🎲 Sudocelle Mini Game: Guess the Number!</h2>
+    <p>Guess a number between <strong>1</strong> and <strong>20</strong>:</p>
+    <input type="number" id="guessInput" min="1" max="20" style="padding:0.5rem; border-radius:6px; border:1px solid #ccc; width:80px;">
+    <button onclick="checkGuess()" style="padding:0.5rem 1rem; border-radius:6px; border:none; background:#2d3e50; color:#fff; cursor:pointer;">Guess</button>
+    <p id="gameMessage" style="margin-top:1rem;"></p>
+    <button onclick="resetGame()" style="margin-top:1rem; padding:0.3rem 1rem; border-radius:6px; border:none; background:#eee; color:#222; cursor:pointer;">Restart</button>
+  </div>
+
+  <div id="contact-container" style="max-width:400px; margin:2rem auto; background:#fff; padding:2rem; border-radius:12px; box-shadow:0 2px 12px rgba(44,62,80,0.08); text-align:center;">
+    <h2>📬 Get in Touch</h2>
+    <form id="contactForm" autocomplete="off">
+      <input type="text" id="name" name="name" placeholder="Your Name" required style="width:90%;padding:0.5rem;margin-bottom:1rem;border-radius:6px;border:1px solid #ccc;"><br>
+      <input type="email" id="email" name="email" placeholder="Your Email" required style="width:90%;padding:0.5rem;margin-bottom:1rem;border-radius:6px;border:1px solid #ccc;"><br>
+      <textarea id="message" name="message" placeholder="Your Message" required style="width:90%;padding:0.5rem;margin-bottom:1rem;border-radius:6px;border:1px solid #ccc;min-height:80px;"></textarea><br>
+      <button type="submit" style="padding:0.5rem 1.5rem;border-radius:6px;border:none;background:#2d3e50;color:#fff;cursor:pointer;">Send</button>
+    </form>
+    <p id="contactMessage" style="margin-top:1rem;"></p>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script>
-    // Simple carousel functionality
     const images = document.getElementById('carouselImages');
     const totalSlides = images.children.length;
     let currentSlide = 0;
@@ -108,7 +125,6 @@
     setInterval(() => nextSlide(), 5000);
     showSlide(0);
 
-    // Sudocelle Stats Bar Chart Example
     const ctx = document.getElementById('myChart').getContext('2d');
     new Chart(ctx, {
       type: 'bar',
@@ -116,7 +132,7 @@
         labels: ['Projects', 'Contributors', 'Stars', 'Forks', 'Releases', 'Issues'],
         datasets: [{
           label: 'Sudocelle Stats',
-          data: [8, 15, 120, 30, 5, 2], // Example stats, update with your real data if you want!
+          data: [8, 15, 120, 30, 5, 2],
           backgroundColor: [
             'rgba(44, 62, 80, 0.7)',
             'rgba(39, 174, 96, 0.7)',
@@ -146,7 +162,6 @@
       }
     });
 
-    // Sudocelle Growth Line Chart Example
     const growthCtx = document.getElementById('growthChart').getContext('2d');
     new Chart(growthCtx, {
       type: 'line',
@@ -174,38 +189,82 @@
       }
     });
 
-    // Day/Night Theme Toggle
     const themeToggle = document.getElementById('themeToggle');
     let darkMode = false;
     themeToggle.addEventListener('click', () => {
       darkMode = !darkMode;
       if (darkMode) {
-        document.body.style.background = '#222';
-        document.body.style.color = '#f9f9fb';
+        document.body.classList.add('dark-mode');
         themeToggle.textContent = '☀️ Light Mode';
         themeToggle.style.background = '#f9f9fb';
         themeToggle.style.color = '#222';
-        document.querySelectorAll('main, .chart-container, .carousel').forEach(el => {
-          el.style.background = '#333';
-          el.style.color = '#f9f9fb';
-        });
-        document.querySelector('header').style.background = '#111';
-        document.querySelector('footer').style.background = '#222';
-        document.querySelector('footer').style.color = '#eee';
       } else {
-        document.body.style.background = '#f9f9fb';
-        document.body.style.color = '#222';
+        document.body.classList.remove('dark-mode');
         themeToggle.textContent = '🌙 Dark Mode';
         themeToggle.style.background = '#222';
         themeToggle.style.color = '#fff';
-        document.querySelectorAll('main, .chart-container, .carousel').forEach(el => {
-          el.style.background = '#fff';
-          el.style.color = '#222';
-        });
-        document.querySelector('header').style.background = '#2d3e50';
-        document.querySelector('footer').style.background = '#eaeaea';
-        document.querySelector('footer').style.color = '#555';
       }
+    });
+
+    let secretNumber = Math.floor(Math.random() * 20) + 1;
+    let attempts = 0;
+
+    function showConfetti() {
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+      const popup = document.createElement('div');
+      popup.textContent = "🎉 Congratulations! 🎉";
+      popup.style.position = "fixed";
+      popup.style.top = "50%";
+      popup.style.left = "50%";
+      popup.style.transform = "translate(-50%, -50%)";
+      popup.style.background = "#fff";
+      popup.style.color = "#222";
+      popup.style.padding = "2rem 3rem";
+      popup.style.borderRadius = "16px";
+      popup.style.boxShadow = "0 4px 24px rgba(44,62,80,0.18)";
+      popup.style.fontSize = "2rem";
+      popup.style.zIndex = "9999";
+      document.body.appendChild(popup);
+      setTimeout(() => {
+        popup.remove();
+      }, 2000);
+    }
+
+    function checkGuess() {
+      const guess = Number(document.getElementById('guessInput').value);
+      const message = document.getElementById('gameMessage');
+      attempts++;
+      if (!guess || guess < 1 || guess > 20) {
+        message.textContent = "Please enter a number between 1 and 20.";
+        message.style.color = "#e67e22";
+      } else if (guess === secretNumber) {
+        message.textContent = `🎉 Correct! You guessed it in ${attempts} tries.`;
+        message.style.color = "#27ae60";
+        showConfetti();
+      } else if (guess < secretNumber) {
+        message.textContent = "Too low! Try again.";
+        message.style.color = "#2980b9";
+      } else {
+        message.textContent = "Too high! Try again.";
+        message.style.color = "#c0392b";
+      }
+    }
+
+    function resetGame() {
+      secretNumber = Math.floor(Math.random() * 20) + 1;
+      attempts = 0;
+      document.getElementById('guessInput').value = '';
+      document.getElementById('gameMessage').textContent = '';
+    }
+
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('contactMessage').textContent = "Thank you for reaching out! We'll get back to you soon.";
+      document.getElementById('contactForm').reset();
     });
   </script>
 </body>
