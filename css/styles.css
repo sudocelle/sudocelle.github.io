@@ -73,3 +73,41 @@ footer {
     padding: 0.5rem 0;
   }
 }
+
+body.dark-mode {
+  background: #222 !important;
+  color: #f9f9fb !important;
+}
+
+body.dark-mode header {
+  background: #111 !important;
+  color: #f9f9fb !important;
+}
+
+body.dark-mode main,
+body.dark-mode .chart-container,
+body.dark-mode .carousel,
+body.dark-mode #game-container,
+body.dark-mode #contact-container {
+  background: #333 !important;
+  color: #f9f9fb !important;
+  box-shadow: 0 2px 12px rgba(44,62,80,0.18) !important;
+}
+
+body.dark-mode input,
+body.dark-mode textarea {
+  background: #222 !important;
+  color: #f9f9fb !important;
+  border: 1px solid #555 !important;
+}
+
+body.dark-mode button,
+body.dark-mode button[type="submit"] {
+  background: #f9f9fb !important;
+  color: #222 !important;
+}
+
+body.dark-mode footer {
+  background: #222 !important;
+  color: #f9f9fb !important;
+}
